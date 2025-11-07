@@ -1,0 +1,35 @@
+name: Deploy static site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # trigger on pushes to main branch
+
+permissions:
+  contents: write  # needed to push to gh-pages
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (optional for frontend build)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      # If you have build steps (React, Angular, etc.), you can add them here
+      # - name: Install dependencies
+      #   run: npm install
+      #
+      # - name: Build project
+      #   run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .  # '.' means deploy everything in root directory
